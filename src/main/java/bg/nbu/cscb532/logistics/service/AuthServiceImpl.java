@@ -63,7 +63,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @EventListener
-    @Transactional
     public void seedUsers(ContextRefreshedEvent event) {
         try {
             Arrays.stream(Authority.values())
