@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1 th:text="${title}"></h1>
+    </div>
+    <p th:if="${result} != null"
+       th:class="'alert alert-' + ${result.type().getUiClass()}"
+       th:text="${result.message()}"/>
+
+</div>
+</body>
+</html>
