@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="fieldAny(id, type, label, value)" class="mb-3">
+    <label th:for="${id}" class="form-label" th:text="${label}"></label>
+    <input
+            th:if="${type} == 'text' or ${type} == 'password' or ${type} == 'file' or ${type} == 'datetime-local'"
+            th:type="${type}"
+            th:name="${id}"
+            th:id="${id}"
+            th:value="${value}"
+            class="form-control"
+            th:classappend="${bindingResult?.hasFieldErrors(id)}? 'is-invalid'" />
+
+    <textarea
+            th:if="${type} == 'textarea'"
+            th:name="${id}"
+            th:id="${id}"
+            th:text="${value}"
+            class="form-control"
+            th:classappend="${bindingResult?.hasFieldErrors(id)}? 'is-invalid'"></textarea>
+
+    <select th:if="${type} == 'select'"
+            th:name="${id}"
+            th:id="${id}"
+            class="form-select"
+            th:multiple="${isMultiple}"
+            th:classappend="${bindingResult?.hasFieldErrors(id)}? 'is-invalid'">
+        <option value="">Choose...</option>
+        <option
+                th:each="item : ${items}"
+                th:value="${item.key}"
+                th:text="${item.value}"
+                th:selected="${(isMultiple == null || isMultiple == false) && item.key.equals(value)}">
+        </option>
+    </select>
+    <p th:if="${bindingResult?.hasFieldErrors(id)}"
+       th:text="${bindingResult?.getFieldError(id)?.getDefaultMessage()}"
+       class="invalid-feedback" />
+</div>

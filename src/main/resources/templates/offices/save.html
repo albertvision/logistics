@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h1 th:text="${title}"></h1>
+
+    <p th:if="${result} != null"
+       th:class="'alert alert-' + ${@uiService.getResultTypeColor(result.type)}"
+       th:text="${result.message}"/>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post" th:action="@{/offices/create}">
+                        <div th:replace="~{form-group :: fieldAny('name', 'text', 'Name', ${office.name})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('address', 'textarea', 'Address', ${office.address})}">
+                        </div>
+                        <div th:with="items=${cities}">
+                            <div th:replace="~{form-group :: fieldAny('cityId', 'select', 'City', ${office.cityId})}">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="id" th:value="${office.id}" />
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/offices" class="btn btn-link">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

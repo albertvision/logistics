@@ -1,6 +1,7 @@
 package bg.nbu.cscb532.logistics.data.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Office extends BaseEntity {
-    public String name;
-    public String address;
-    public String city;
-    public String postalCode;
+    private String name;
+    private String address;
+
+    @ManyToOne
+    private City city;
 }

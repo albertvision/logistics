@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="d-flex gap-3 align-items-center">
+        <h1 th:text="${title}"></h1>
+        <div>
+            <a th:href="@{/offices/create}" class="btn btn-outline-primary">Create</a>
+        </div>
+    </div>
+
+    <div class="card my-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="office : ${offices}">
+                    <td>
+                        <a th:href="'/offices/' + ${office.id}" th:text="${office.name}" title="Open"></a>
+                    </td>
+                    <td th:text="${office.city.postalCode + ' ' + office.city.name}"></td>
+                    <td th:text="${office.address}"></td>
+                    <td class="text-right">
+                        <a th:href="'/offices/' + ${office.id}" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Edit">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
