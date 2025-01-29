@@ -4,6 +4,7 @@ import bg.nbu.cscb532.logistics.data.entity.City;
 import bg.nbu.cscb532.logistics.data.entity.Office;
 import bg.nbu.cscb532.logistics.data.repository.OfficeRepository;
 import bg.nbu.cscb532.logistics.dto.SaveOfficeDto;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Office save(SaveOfficeDto saveOfficeDto) {
         City city = cityServiceImpl.findById(saveOfficeDto.getCityId())
                 .orElseThrow(() -> new IllegalArgumentException("City not found"));
