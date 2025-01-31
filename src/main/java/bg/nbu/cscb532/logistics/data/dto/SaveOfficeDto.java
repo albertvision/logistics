@@ -1,4 +1,4 @@
-package bg.nbu.cscb532.logistics.dto;
+package bg.nbu.cscb532.logistics.data.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

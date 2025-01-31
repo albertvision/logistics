@@ -1,22 +1,22 @@
 package bg.nbu.cscb532.logistics.data.entity;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Office extends BaseEntity {
+public class Address {
     @NotNull
-    private String name;
+    private String addressLine;
 
-    @Embedded
-    private Address address;
+    @ManyToOne
+    private City city;
 }

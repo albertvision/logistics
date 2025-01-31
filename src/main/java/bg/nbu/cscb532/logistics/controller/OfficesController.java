@@ -2,9 +2,9 @@ package bg.nbu.cscb532.logistics.controller;
 
 import bg.nbu.cscb532.logistics.data.ActionResult;
 import bg.nbu.cscb532.logistics.data.ResultType;
+import bg.nbu.cscb532.logistics.data.dto.SaveOfficeDto;
 import bg.nbu.cscb532.logistics.data.entity.BaseEntity;
 import bg.nbu.cscb532.logistics.data.entity.Office;
-import bg.nbu.cscb532.logistics.dto.SaveOfficeDto;
 import bg.nbu.cscb532.logistics.service.CityService;
 import bg.nbu.cscb532.logistics.service.OfficeService;
 import jakarta.validation.Valid;
@@ -60,7 +60,7 @@ public class OfficesController {
 
     @GetMapping("/{id}")
     String edit(@PathVariable Long id, Model model) {
-        Office office = officeService.getById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        Office office = officeService.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         model.addAttribute("title", office.getName() + " - Edit Office");
         model.addAttribute(
@@ -79,8 +79,8 @@ public class OfficesController {
                 SaveOfficeDto.builder()
                         .id(office.getId())
                         .name(office.getName())
-                        .address(office.getAddress())
-                        .cityId(office.getCity().getId())
+                        .address(office.getAddress().getAddressLine())
+                        .cityId(office.getAddress().getCity().getId())
                         .build()
         );
 

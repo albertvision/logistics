@@ -1,9 +1,11 @@
 package bg.nbu.cscb532.logistics.service;
 
+import bg.nbu.cscb532.logistics.data.dto.SaveOfficeDto;
+import bg.nbu.cscb532.logistics.data.entity.Address;
 import bg.nbu.cscb532.logistics.data.entity.City;
 import bg.nbu.cscb532.logistics.data.entity.Office;
 import bg.nbu.cscb532.logistics.data.repository.OfficeRepository;
-import bg.nbu.cscb532.logistics.dto.SaveOfficeDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OfficeServiceImpl implements OfficeService {
 
     private final OfficeRepository officeRepository;
     private final CityServiceImpl cityServiceImpl;
-
-    public OfficeServiceImpl(OfficeRepository officeRepository, CityServiceImpl cityServiceImpl) {
-        this.officeRepository = officeRepository;
-        this.cityServiceImpl = cityServiceImpl;
-    }
 
     @Override
     public List<Office> getAll() {
@@ -27,7 +25,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public Optional<Office> getById(Long id) {
+    public Optional<Office> findById(Long id) {
         return officeRepository.findById(id);
     }
 
@@ -46,8 +44,7 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         office.setName(saveOfficeDto.getName());
-        office.setAddress(saveOfficeDto.getAddress());
-        office.setCity(city);
+        office.setAddress(new Address(saveOfficeDto.getName(), city));
 
         return officeRepository.save(office);
     }
