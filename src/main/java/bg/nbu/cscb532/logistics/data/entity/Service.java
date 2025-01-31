@@ -1,0 +1,35 @@
+package bg.nbu.cscb532.logistics.data.entity;
+
+import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
+
+@Entity
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class Service extends BaseEntity {
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private ServiceType serviceType;
+
+    @Column(nullable = false)
+    private Integer minWeight;
+
+    @Column(nullable = false)
+    private BigDecimal basePriceEur;
+
+    @Column(nullable = false)
+    private BigDecimal priceEurPerWeight;
+}

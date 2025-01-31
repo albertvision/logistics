@@ -1,0 +1,13 @@
+package bg.nbu.cscb532.logistics.service;
+
+import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
+import bg.nbu.cscb532.logistics.data.entity.Shipping;
+import bg.nbu.cscb532.logistics.data.entity.ShippingStatus;
+
+import java.util.Optional;
+
+public interface ShippingService {
+    public Shipping save(SaveShippingDto shippingDto);
+
+    public Optional<ShippingStatus> getLastStatusType(Shipping shipping);
+}
