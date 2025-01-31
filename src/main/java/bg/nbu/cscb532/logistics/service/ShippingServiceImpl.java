@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -79,6 +80,11 @@ public class ShippingServiceImpl implements ShippingService {
         shippingRepository.save(shipping);
 
         return shipping;
+    }
+
+    @Override
+    public List<Shipping> findAll() {
+        return List.of();
     }
 
     @Override

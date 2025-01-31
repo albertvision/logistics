@@ -1,10 +1,7 @@
 package bg.nbu.cscb532.logistics.data.entity;
 
 import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +16,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {Service_.SERVICE_TYPE, Service_.MIN_WEIGHT})
+})
 public class Service extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

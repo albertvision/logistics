@@ -105,26 +105,31 @@ public class ServiceServiceImpl implements ServiceService {
                         .serviceType(ServiceType.TRANSPORTATION)
                         .minWeight(500)
                         .basePriceEur(BigDecimal.valueOf(4.53))
+                        .priceEurPerWeight(BigDecimal.ZERO)
                         .build(),
                 Service.builder()
                         .serviceType(ServiceType.COLLECTION_FROM_OFFICE)
                         .minWeight(500)
                         .basePriceEur(BigDecimal.ZERO)
+                        .priceEurPerWeight(BigDecimal.ZERO)
                         .build(),
                 Service.builder()
                         .serviceType(ServiceType.COLLECTION_FROM_ADDRESS)
                         .minWeight(500)
                         .basePriceEur(BigDecimal.valueOf(1.06))
+                        .priceEurPerWeight(BigDecimal.ZERO)
                         .build(),
                 Service.builder()
                         .serviceType(ServiceType.DELIVERY_TO_OFFICE)
                         .minWeight(500)
                         .basePriceEur(BigDecimal.ZERO)
+                        .priceEurPerWeight(BigDecimal.ZERO)
                         .build(),
                 Service.builder()
                         .serviceType(ServiceType.DELIVERY_TO_ADDRESS)
                         .minWeight(500)
                         .basePriceEur(BigDecimal.valueOf(1.06))
+                        .priceEurPerWeight(BigDecimal.ZERO)
                         .build()
         );
 
@@ -133,7 +138,7 @@ public class ServiceServiceImpl implements ServiceService {
             try {
                 serviceRepository.save(it);
             } catch (DataIntegrityViolationException ignore) {
-
+                //
             }
         });
     }

@@ -21,7 +21,7 @@ public class Shipping extends BaseEntity {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private User sender;
 
     @Embedded
@@ -33,7 +33,7 @@ public class Shipping extends BaseEntity {
     private Office senderOffice;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private User receiver;
 
     @Embedded
