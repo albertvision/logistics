@@ -44,7 +44,7 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         office.setName(saveOfficeDto.getName());
-        office.setAddress(new Address(saveOfficeDto.getName(), city));
+        office.setAddress(new Address(saveOfficeDto.getAddress(), city));
 
         return officeRepository.save(office);
     }
