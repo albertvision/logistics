@@ -99,7 +99,9 @@ public class OfficesController {
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
             redirectAttributes.addFlashAttribute("result", new ActionResult("Form validation failed", ResultType.ERROR));
 
-            return "redirect:/offices/create";
+            return saveOfficeDto.getId() == null
+                    ? "redirect:/offices/create"
+                    : "redirect:/offices/" + saveOfficeDto.getId();
         }
 
         redirectAttributes.addFlashAttribute("result", new ActionResult("Office saved.", ResultType.SUCCESS));
