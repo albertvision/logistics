@@ -20,7 +20,7 @@ public class OfficeServiceImpl implements OfficeService {
     private final CityServiceImpl cityServiceImpl;
 
     @Override
-    public List<Office> getAll() {
+    public List<Office> findAll() {
         return officeRepository.findAll();
     }
 

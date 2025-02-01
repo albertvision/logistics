@@ -26,4 +26,9 @@ public class City extends BaseEntity {
     private City region;
 
     private Boolean addressDeliveries;
+
+    @Override
+    public String toString() {
+        return "%d %s".formatted(postalCode, name);
+    }
 }

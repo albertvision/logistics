@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="fieldAny(id, type, label, value)" class="mb-3">
-    <label th:for="${id}" class="form-label" th:text="${label}"></label>
+    <label th:for="${id}" class="form-label" th:text="${label}" th:if="${hideLabel == null || !hideLabel}"></label>
     <input
-            th:if="${type} == 'text' or ${type} == 'password' or ${type} == 'file' or ${type} == 'datetime-local'"
+            th:if="${type} == 'text' or ${type} == 'password' or ${type} == 'file' or ${type} == 'datetime-local' or ${type} == 'number'"
             th:type="${type}"
             th:name="${id}"
             th:id="${id}"
@@ -33,6 +33,27 @@
                 th:selected="${(isMultiple == null || isMultiple == false) && item.key.equals(value)}">
         </option>
     </select>
+
+    <div th:if="${type} == 'radio-button'"
+         class="btn-group"
+         role="group"
+    >
+        <th:block th:each="item: ${items}">
+            <input type="radio"
+                   th:name="${id}"
+                   th:id="${#strings.concat(id, '-', item.key)}"
+                   th:value="${item.key}"
+                   class="btn-check"
+                   th:classappend="${classAppend == null ? '' : classAppend}"
+                   autocomplete="off"
+                   th:checked="${item.key.equals(value)}" />
+            <label  th:text="${item.value}"
+                    th:for="${#strings.concat(id, '-', item.key)}"
+                    class="btn btn-outline-secondary">
+            </label>
+        </th:block>
+    </div>
+
     <p th:if="${bindingResult?.hasFieldErrors(id)}"
        th:text="${bindingResult?.getFieldError(id)?.getDefaultMessage()}"
        class="invalid-feedback" />

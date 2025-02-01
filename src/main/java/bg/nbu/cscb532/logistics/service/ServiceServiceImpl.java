@@ -11,7 +11,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static bg.nbu.cscb532.logistics.data.spec.ServiceSpec.*;
 
@@ -29,17 +31,26 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     public BigDecimal getAmountEur(Shipping shipping) {
-        List<ServiceType> serviceTypes = getServiceTypes(shipping);
+        return calculateServices(shipping)
+                .values()
+                .stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
-        List<Service> services = serviceTypes.stream()
+    @Override
+    public Map<Service, BigDecimal> calculateServices(Shipping shipping) {
+        return getServices(shipping)
+                .stream()
+                .collect(Collectors.toMap(it -> it, it -> getAmountEur(shipping.getWeightInGrams(), it)));
+    }
+
+    public List<Service> getServices(Shipping shipping) {
+        return getServiceTypes(shipping)
+                .stream()
                 .map(it -> getForUnitValueAndType(shipping.getWeightInGrams(), it))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
-
-        return services.stream()
-                .map(it -> getAmountEur(shipping.getWeightInGrams(), it))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private static List<ServiceType> getServiceTypes(Shipping shipping) {

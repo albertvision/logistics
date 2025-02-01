@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface ShippingService {
     public Shipping save(SaveShippingDto shippingDto);
 
+    public Shipping createEntity(SaveShippingDto shippingDto);
+
     public List<Shipping> findAll();
 
     public Optional<ShippingStatus> getLastStatusType(Shipping shipping);

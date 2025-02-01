@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h1 th:text="${title}"></h1>
+
+    <p th:if="${result} != null"
+       th:class="'alert alert-' + ${@uiService.getResultTypeColor(result.type)}"
+       th:text="${result.message}"/>
+
+    <form method="post" th:action="@{/shippings/save}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div th:with="items=${senders}">
+                            <div th:replace="~{form-group :: fieldAny('senderId', 'select', 'Sender', ${shipping.senderId})}">
+                            </div>
+                        </div>
+                        <div th:with="items=${collectionTypes}, hideLabel=true, classAppend='js-service-toggle'">
+                            <div th:replace="~{form-group :: fieldAny('collectionType', 'radio-button', 'Collection Type', ${shipping.collectionType})}">
+                            </div>
+                        </div>
+                        <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).COLLECTION_FROM_OFFICE.name()}"
+                             class="js-service js-service--collectionType"
+                        >
+                            <div th:with="items=${offices}">
+                                <div th:replace="~{form-group :: fieldAny('senderOfficeId', 'select', 'Sender Office', ${shipping.senderOfficeId})}">
+                                </div>
+                            </div>
+                        </div>
+                        <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).COLLECTION_FROM_ADDRESS.name()}"
+                             class="js-service js-service--collectionType"
+                        >
+                            <div th:with="items=${cities}">
+                                <div th:replace="~{form-group :: fieldAny('senderCityId', 'select', 'Sender City', ${shipping.senderCityId})}">
+                                </div>
+                            </div>
+                            <div th:with="items=${cities}">
+                                <div th:replace="~{form-group :: fieldAny('senderAddress', 'textarea', 'Sender Address', ${shipping.senderAddressLine})}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div th:with="items=${receivers}">
+                            <div th:replace="~{form-group :: fieldAny('receiverId', 'select', 'Receiver', ${shipping.receiverId})}">
+                            </div>
+                        </div>
+                        <div th:with="items=${deliveryTypes}, hideLabel=true, classAppend='js-service-toggle'">
+                            <div th:replace="~{form-group :: fieldAny('deliveryType', 'radio-button', 'Delivery Type', ${shipping.deliveryType})}">
+                            </div>
+                        </div>
+                        <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).DELIVERY_TO_OFFICE.name()}"
+                             class="js-service js-service--deliveryType"
+                        >
+                            <div th:with="items=${offices}">
+                                <div th:replace="~{form-group :: fieldAny('receiverOfficeId', 'select', 'Receiver Office', ${shipping.receiverOfficeId})}">
+                                </div>
+                            </div>
+                        </div>
+                        <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).DELIVERY_TO_ADDRESS.name()}"
+                             class="js-service js-service--deliveryType"
+                        >
+                            <div th:with="items=${cities}">
+                                <div th:replace="~{form-group :: fieldAny('receiverCityId', 'select', 'Receiver City', ${shipping.receiverCityId})}">
+                                </div>
+                            </div>
+                            <div th:with="items=${cities}">
+                                <div th:replace="~{form-group :: fieldAny('receiverAddress', 'textarea', 'Receiver Address', ${shipping.receiverAddressLine})}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div th:replace="~{form-group :: fieldAny('description', 'text', 'Package Description', ${shipping.description})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('weightGrams', 'number', 'Package Weight (g)', ${shipping.weightGrams})}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-3">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th class="text-end">Cost</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Transportation</td>
+                                <td class="text-end">0,00 EUR</td>
+                            </tr>
+                            <tr>
+                                <td>Collection from office</td>
+                                <td class="text-end">0,00 EUR</td>
+                            </tr>
+                            <tr>
+                                <td>Delivery to Address</td>
+                                <td class="text-end">0,00 EUR</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Total:</th>
+                                <th class="text-end">0,00 EUR</th>
+                            </tr>
+                            </tfoot>
+                            <tr></tr>
+                        </table>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/shippings" class="btn btn-link">Cancel</a>
+            </div>
+        </div>
+        <input type="hidden" name="id" th:value="${shipping.id}"/>
+    </form>
+</div>
+<script>
+    function getServiceBlockId(serviceName) {
+        return 'service-' + serviceName;
+    }
+
+    function getServiceBlockClassName(serviceName) {
+        return 'js-service--' + serviceName;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let collectionSections = document.querySelectorAll('.js-service');
+
+        collectionSections.forEach(el => {
+            // todo
+            el.classList.add('d-none');
+        });
+
+        document.querySelectorAll('.js-service-toggle')
+            .forEach(function (element) {
+                element.addEventListener('change', function () {
+                    let serviceType = this.name;
+                    let serviceValue = this.value;
+
+                    collectionSections.forEach(el => {
+                        if (el.classList.contains(getServiceBlockClassName(serviceType))) {
+                            el.classList.add('d-none');
+                        }
+                    });
+
+                    document.querySelector(`#${getServiceBlockId(serviceValue)}`)
+                        .classList
+                        .remove('d-none');
+                })
+            })
+    });
+</script>
+</body>
+</html>

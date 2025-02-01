@@ -3,6 +3,7 @@ package bg.nbu.cscb532.logistics.data.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +16,9 @@ public class SaveShippingDto {
     @NotNull
     private Long senderId;
 
+    @NotNull
+    private String collectionType;
+
     @Min(2)
     private String senderAddressLine;
 
@@ -24,6 +28,9 @@ public class SaveShippingDto {
 
     @NotNull
     private Long receiverId;
+
+    @NotNull
+    private String deliveryType;
 
     @Min(2)
     private String receiverAddressLine;
@@ -35,6 +42,6 @@ public class SaveShippingDto {
     @NotNull
     private Integer weightGrams;
 
-    @Min(3)
+    @Length(min = 3, max = 255)
     private String description;
 }

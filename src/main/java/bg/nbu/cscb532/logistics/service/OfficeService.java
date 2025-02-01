@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OfficeService {
-    public List<Office> getAll();
+    public List<Office> findAll();
 
     public Optional<Office> findById(Long id);
 

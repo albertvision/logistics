@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,7 +84,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User getLoggedInUser() {
-        //todo
-        return null;
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

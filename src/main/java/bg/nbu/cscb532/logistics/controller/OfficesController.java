@@ -31,7 +31,7 @@ public class OfficesController {
     @GetMapping
     String getIndex(Model model) {
         model.addAttribute("title", "Offices");
-        model.addAttribute("offices", officeService.getAll());
+        model.addAttribute("offices", officeService.findAll());
 
         return "offices/index";
     }
