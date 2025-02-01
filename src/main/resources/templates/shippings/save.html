@@ -22,7 +22,6 @@
                             </div>
                         </div>
                         <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).COLLECTION_FROM_OFFICE.name()}"
-                             class="js-service js-service--collectionType"
                         >
                             <div th:with="items=${offices}">
                                 <div th:replace="~{form-group :: fieldAny('senderOfficeId', 'select', 'Sender Office', ${shipping.senderOfficeId})}">
@@ -30,7 +29,6 @@
                             </div>
                         </div>
                         <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).COLLECTION_FROM_ADDRESS.name()}"
-                             class="js-service js-service--collectionType"
                         >
                             <div th:with="items=${cities}">
                                 <div th:replace="~{form-group :: fieldAny('senderCityId', 'select', 'Sender City', ${shipping.senderCityId})}">
@@ -54,7 +52,6 @@
                             </div>
                         </div>
                         <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).DELIVERY_TO_OFFICE.name()}"
-                             class="js-service js-service--deliveryType"
                         >
                             <div th:with="items=${offices}">
                                 <div th:replace="~{form-group :: fieldAny('receiverOfficeId', 'select', 'Receiver Office', ${shipping.receiverOfficeId})}">
@@ -62,7 +59,6 @@
                             </div>
                         </div>
                         <div th:id="${'service-' + T(bg.nbu.cscb532.logistics.data.enumeration.ServiceType).DELIVERY_TO_ADDRESS.name()}"
-                             class="js-service js-service--deliveryType"
                         >
                             <div th:with="items=${cities}">
                                 <div th:replace="~{form-group :: fieldAny('receiverCityId', 'select', 'Receiver City', ${shipping.receiverCityId})}">
@@ -130,35 +126,28 @@
         return 'service-' + serviceName;
     }
 
-    function getServiceBlockClassName(serviceName) {
-        return 'js-service--' + serviceName;
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
-        let collectionSections = document.querySelectorAll('.js-service');
+        let servicesConfig = {};
+        let serviceToggleInputs = document.querySelectorAll('.js-service-toggle');
 
-        collectionSections.forEach(el => {
-            // todo
-            el.classList.add('d-none');
-        });
-
-        document.querySelectorAll('.js-service-toggle')
+        serviceToggleInputs
             .forEach(function (element) {
-                element.addEventListener('change', function () {
-                    let serviceType = this.name;
-                    let serviceValue = this.value;
+                let serviceType = element.name;
 
-                    collectionSections.forEach(el => {
-                        if (el.classList.contains(getServiceBlockClassName(serviceType))) {
-                            el.classList.add('d-none');
-                        }
-                    });
+                servicesConfig[serviceType] ??= [];
+                servicesConfig[serviceType].push(element);
 
-                    document.querySelector(`#${getServiceBlockId(serviceValue)}`)
-                        .classList
-                        .remove('d-none');
-                })
-            })
+                setServiceFields(serviceType);
+                element.addEventListener('change', () => setServiceFields(serviceType));
+            });
+
+        function setServiceFields(serviceType) {
+            servicesConfig[serviceType].forEach(serviceFieldElement => {
+                document.querySelector(`#${getServiceBlockId(serviceFieldElement.value)}`)
+                    .classList
+                    .toggle('d-none', !serviceFieldElement.checked)
+            });
+        }
     });
 </script>
 </body>
