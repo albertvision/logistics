@@ -97,7 +97,7 @@ public class ShippingServiceImpl implements ShippingService {
 
     @Override
     public List<Shipping> findAll() {
-        return List.of();
+        return shippingRepository.findAll();
     }
 
     @Override

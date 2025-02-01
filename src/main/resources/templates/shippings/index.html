@@ -14,24 +14,24 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th></th>
+                    <th>ID</th>
+                    <th>Receiver</th>
+                    <th>Receiver City</th>
+                    <th>Delivery</th>
+                    <th>Receiver Address</th>
+                    <th>Content</th>
+                    <th class="text-end">Weight (g)</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="shipping : ${shippings}">
-                    <td>
-                        <a th:href="'/offices/' + ${office.id}" th:text="${office.name}" title="Open"></a>
-                    </td>
-                    <td th:text="${office.city.postalCode + ' ' + office.city.name}"></td>
-                    <td th:text="${office.address}"></td>
-                    <td class="text-right">
-                        <a th:href="'/offices/' + ${office.id}" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Edit">
-                            <i class="bi bi-pen"></i>
-                        </a>
-                    </td>
+                    <td th:text="${shipping.id}"></td>
+                    <td th:text="${shipping.receiver.name}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
+                    <td th:text="${shipping.contentDescription}"></td>
+                    <td th:text="${shipping.weightInGrams}" class="text-end"></td>
                 </tr>
                 </tbody>
             </table>

@@ -19,4 +19,9 @@ public class Office extends BaseEntity {
 
     @Embedded
     private Address address;
+
+    @Override
+    public String toString() {
+        return "Office %s, %s".formatted(name, address);
+    }
 }

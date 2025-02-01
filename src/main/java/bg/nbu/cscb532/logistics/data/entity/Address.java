@@ -19,4 +19,9 @@ public class Address {
 
     @ManyToOne
     private City city;
+
+    @Override
+    public String toString() {
+        return "%s, %s".formatted(city, addressLine);
+    }
 }
