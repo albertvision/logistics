@@ -41,7 +41,7 @@ public class CityServiceImpl implements CityService {
                         .addressDeliveries(true)
                         .build(),
                 City.builder().name("Varna")
-                        .postalCode(9000)
+                        .postalCode(9000)w
                         .addressDeliveries(true)
                         .build(),
                 City.builder().name("Burgas")
