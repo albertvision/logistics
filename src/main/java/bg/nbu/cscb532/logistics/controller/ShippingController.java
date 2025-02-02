@@ -54,7 +54,7 @@ public class ShippingController {
 
         model.addAttribute("users", userService.findAll());
 
-        return "_index";
+        return "shippings/index";
     }
 
     @GetMapping("/create")
