@@ -32,5 +32,9 @@ function addService() {
 
 function removeService() {
     const servicesList = document.getElementById("services-list");
-    servicesList.innerHTML = ""; // Clears all service entries
+    const lastService = servicesList.lastElementChild; // Get the last added service
+
+    if (lastService) {
+        servicesList.removeChild(lastService); // Remove only the last service
+    }
 }
