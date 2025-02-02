@@ -39,7 +39,7 @@ input, select {
     position: relative;
 }
 
-/* Remove Button */
+/* Remove Single Service Button */
 .remove-btn {
     position: absolute;
     top: 10px;
@@ -56,7 +56,7 @@ input, select {
     background-color: #cc0000;
 }
 
-/* Add Service Button */
+/* Buttons (Add & Remove All Services) */
 .btn {
     width: 100%;
     padding: 10px;
@@ -72,5 +72,13 @@ input, select {
 
 .btn:hover {
     background-color: #FFA500; /* Orange */
-    color: white;
+}
+
+/* Remove All Services Button */
+.remove-all-btn {
+    background-color: #ff4d4d; /* Red */
+}
+
+.remove-all-btn:hover {
+    background-color: #cc0000; /* Darker red on hover */
 }

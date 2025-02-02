@@ -33,3 +33,8 @@ function addService() {
 function removeService(button) {
     button.parentElement.remove(); // Remove the service box
 }
+
+function removeAllServices() {
+    const servicesList = document.getElementById("services-list");
+    servicesList.innerHTML = ""; // Clears all service entries
+}
