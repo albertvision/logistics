@@ -15,6 +15,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Status</th>
                     <th>Receiver</th>
                     <th>Receiver City</th>
                     <th>Delivery</th>
@@ -26,6 +27,9 @@
                 <tbody>
                 <tr th:each="shipping : ${shippings}">
                     <td th:text="${shipping.id}"></td>
+                    <td>
+                        <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}" class="badge text-bg-secondary"></span>
+                    </td>
                     <td th:text="${shipping.receiver.name}"></td>
                     <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
                     <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>

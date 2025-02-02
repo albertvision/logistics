@@ -4,6 +4,7 @@ import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
 import bg.nbu.cscb532.logistics.data.entity.*;
 import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import bg.nbu.cscb532.logistics.data.repository.ShippingRepository;
+import bg.nbu.cscb532.logistics.data.repository.ShippingStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShippingServiceImpl implements ShippingService {
     private final ShippingRepository shippingRepository;
+    private final ShippingStatusRepository shippingStatusRepository;
     private final UserService userService;
     private final CityService cityService;
     private final OfficeService officeService;
@@ -27,6 +29,7 @@ public class ShippingServiceImpl implements ShippingService {
         Shipping shipping = createEntity(shippingDto);
 
         shippingRepository.save(shipping);
+        shippingStatusRepository.saveAll(shipping.getShippingStatuses());
 
         return shipping;
     }
@@ -44,6 +47,7 @@ public class ShippingServiceImpl implements ShippingService {
                             .type(ShippingStatusType.NEW)
                             .user(creator)
                             .shipping(shipping)
+                            .createdAt(LocalDateTime.now())
                             .build()
             );
             shipping.setCreatedAt(LocalDateTime.now());

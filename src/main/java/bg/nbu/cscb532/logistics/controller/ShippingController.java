@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,7 +39,20 @@ public class ShippingController {
     @GetMapping
     public String getIndex(Model model) {
         model.addAttribute("title", "Shippings");
-        model.addAttribute("shippings", shippingService.findAll());
+
+        List<Shipping> shippings = shippingService.findAll();
+        model.addAttribute("shippings", shippings);
+
+        model.addAttribute(
+                "shippingStatuses",
+                shippings.stream()
+                        .collect(Collectors.toMap(
+                                Function.identity(),
+                                shippingService::getLastStatusType
+                        ))
+        );
+
+        model.addAttribute("users", userService.findAll());
 
         return "shippings/index";
     }
