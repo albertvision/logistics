@@ -1,46 +1,66 @@
 <!DOCTYPE html>
-<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
-<body>
-<div class="container">
-    <div class="d-flex gap-3 align-items-center">
-        <h1 th:text="${title}"></h1>
-        <div>
-            <a th:href="@{/shippings/create}" class="btn btn-outline-primary">Create</a>
-        </div>
-    </div>
+<html lang="en">
 
-    <div class="card my-3">
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Status</th>
-                    <th>Receiver</th>
-                    <th>Receiver City</th>
-                    <th>Delivery</th>
-                    <th>Receiver Address</th>
-                    <th>Content</th>
-                    <th class="text-end">Weight (g)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="shipping : ${shippings}">
-                    <td th:text="${shipping.id}"></td>
-                    <td>
-                        <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}" class="badge text-bg-secondary"></span>
-                    </td>
-                    <td th:text="${shipping.receiver.name}"></td>
-                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
-                    <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
-                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
-                    <td th:text="${shipping.contentDescription}"></td>
-                    <td th:text="${shipping.weightInGrams}" class="text-end"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping Table</title>
+
+  <link rel="stylesheet" href="css/style-table.css"> <!-- Fixed CSS Link -->
+  <script defer src="/js/site.js"></script>
+</head>
+
+<body>
+
+<!-- Header Section -->
+<div class="heading">
+  <h1>Shipping Table</h1>
+  <button class="btn" onclick="createShipment()">Create Shipment</button>
 </div>
+
+<!-- Table Container -->
+<div class="outer-wrapper">
+  <div class="table-wrapper">
+    <table id="emp-table">
+      <thead>
+      <tr>
+        <th data-index="1" onclick="sortTable(0)">Order ID</th>
+        <th data-index="2" onclick="sortTable(1)">Receiver</th>
+        <th data-index="3">
+          Delivery Status
+          <label>
+            <select class="table-filter" onchange="filterRows(2)">
+              <option value="all">All</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Not Delivered">Not Delivered</option>
+            </select>
+          </label>
+        </th>
+        <th data-index="4">Receiver City</th>
+        <th data-index="5">Delivery</th>
+        <th data-index="6">Receiver's Address</th>
+        <th data-index="7">Content</th>
+        <th data-index="8">Weight (g)</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="shipping : ${shippings}">
+        <td th:text="${shipping.id}"></td>
+        <td>
+          <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}" class="badge text-bg-secondary"></span>
+        </td>
+        <td th:text="${shipping.receiver.name}"></td>
+        <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
+        <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
+        <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
+        <td th:text="${shipping.contentDescription}"></td>
+        <td th:text="${shipping.weightInGrams}" class="text-end"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 </body>
 </html>

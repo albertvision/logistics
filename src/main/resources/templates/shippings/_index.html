@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="d-flex gap-3 align-items-center">
+        <h1 th:text="${title}"></h1>
+        <div>
+            <a th:href="@{/shippings/create}" class="btn btn-outline-primary">Create</a>
+        </div>
+    </div>
+
+    <div class="card my-3">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Receiver</th>
+                    <th>Receiver City</th>
+                    <th>Delivery</th>
+                    <th>Receiver Address</th>
+                    <th>Content</th>
+                    <th class="text-end">Weight (g)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shipping : ${shippings}">
+                    <td th:text="${shipping.id}"></td>
+                    <td>
+                        <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}" class="badge text-bg-secondary"></span>
+                    </td>
+                    <td th:text="${shipping.receiver.name}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
+                    <td th:text="${shipping.contentDescription}"></td>
+                    <td th:text="${shipping.weightInGrams}" class="text-end"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
