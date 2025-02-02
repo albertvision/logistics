@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const userType = document.querySelector('input[name="user-type"]:checked').value;
 
             // Валидация на имейла (трябва да съдържа "@")
-            if (!emailInput.includes("@")) {
-                loginMessage.textContent = "Моля, въведете валиден имейл адрес!";
-                loginMessage.style.color = "red";
-                return;
-            }
+           // if (!emailInput.includes("@")) {
+            //    loginMessage.textContent = "Моля, въведете валиден имейл адрес!";
+             //   loginMessage.style.color = "red";
+              //  return;
+           //  }
 
             // Валидация на паролата (минимум 6 символа)
             if (passwordInput.length < 6) {
