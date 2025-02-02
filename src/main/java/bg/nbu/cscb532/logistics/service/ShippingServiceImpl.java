@@ -5,6 +5,7 @@ import bg.nbu.cscb532.logistics.data.entity.*;
 import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import bg.nbu.cscb532.logistics.data.repository.ShippingRepository;
 import bg.nbu.cscb532.logistics.data.repository.ShippingStatusRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class ShippingServiceImpl implements ShippingService {
     private final ServiceService serviceService;
 
     @Override
+    @Transactional
     public Shipping save(SaveShippingDto shippingDto) {
         Shipping shipping = createEntity(shippingDto);
 

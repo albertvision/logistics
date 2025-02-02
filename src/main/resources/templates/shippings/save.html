@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div th:with="items=${cities}">
-                                <div th:replace="~{form-group :: fieldAny('senderAddress', 'textarea', 'Sender Address', ${shipping.senderAddressLine})}">
+                                <div th:replace="~{form-group :: fieldAny('senderAddressLine', 'textarea', 'Sender Address', ${shipping.senderAddressLine})}">
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             <div th:with="items=${cities}">
-                                <div th:replace="~{form-group :: fieldAny('receiverAddress', 'textarea', 'Receiver Address', ${shipping.receiverAddressLine})}">
+                                <div th:replace="~{form-group :: fieldAny('receiverAddressLine', 'textarea', 'Receiver Address', ${shipping.receiverAddressLine})}">
                                 </div>
                             </div>
                         </div>
