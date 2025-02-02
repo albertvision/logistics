@@ -114,7 +114,3 @@ function filterShipments() {
         }
     }
 }
-function createShipment() {
-    alert('Create Shipment button clicked!');
-    window.location.href ="/shipping/table-shipping";
-}

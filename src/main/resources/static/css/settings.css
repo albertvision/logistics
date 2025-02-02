@@ -58,7 +58,6 @@ input, select {
 
 /* Buttons (Add & Remove All Services) */
 .btn {
-    width: 100%;
     padding: 10px;
     background-color: #003153; /* Blue */
     color: white;
