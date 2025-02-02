@@ -116,5 +116,5 @@ function filterShipments() {
 }
 function createShipment() {
     alert('Create Shipment button clicked!');
-    // Add your logic for creating a shipment here
+    window.location.href ="/shipping/table-shipping";
 }
