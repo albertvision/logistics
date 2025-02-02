@@ -75,10 +75,10 @@ input, select {
 }
 
 /* Remove All Services Button */
-.remove-all-btn {
+.remove-btn {
     background-color: #ff4d4d; /* Red */
 }
 
-.remove-all-btn:hover {
+.remove-btn:hover {
     background-color: #cc0000; /* Darker red on hover */
 }
