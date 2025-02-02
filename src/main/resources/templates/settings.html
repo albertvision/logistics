@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+
+<div class="settings-container">
+    <h1>Settings</h1>
+
+    <!-- Company Name -->
+    <label for="company-name">Company Name:</label>
+    <input type="text" id="company-name" placeholder="Enter company name">
+
+    <h2>Services</h2>
+
+    <!-- Services List -->
+    <div id="services-list">
+        <!-- Services will be dynamically added here -->
+    </div>
+
+    <!-- Add Service Button -->
+    <button class="btn" onclick="addService()">Add Service</button>
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>

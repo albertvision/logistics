@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Settings Page Container */
+.settings-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Headings */
+h1, h2 {
+    color: #003153; /* Blue */
+    margin-bottom: 10px;
+}
+
+/* Inputs & Select */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Service Box */
+.service-box {
+    padding: 15px;
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+/* Remove Button */
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Add Service Button */
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #003153; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #FFA500; /* Orange */
+    color: white;
+}

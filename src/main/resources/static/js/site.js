@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         loginForm.addEventListener("submit", function (event) {
             event.preventDefault(); // Спира презареждането на страницата
 
-            const emailInput = document.getElementById("email").value;
+            const emailInput = document.getElementById("username").value;
             const passwordInput = document.getElementById("password").value;
             const userType = document.querySelector('input[name="user-type"]:checked').value;
 
@@ -29,9 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Успешен вход
             loginMessage.textContent = `Успешно влязохте като ${userType.toUpperCase()}!`;
             loginMessage.style.color = "green";
-
-            // Логване в конзолата (може да се замени с бекенд заявка)
-            console.log(`Имейл: ${emailInput}, Парола: ${passwordInput}, Тип потребител: ${userType}`);
         });
     }
 
