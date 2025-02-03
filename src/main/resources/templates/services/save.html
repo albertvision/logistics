@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h1 th:text="${title}"></h1>
+
+    <p th:if="${result} != null"
+       th:class="'alert alert-' + ${@uiService.getResultTypeColor(result.type)}"
+       th:text="${result.message}"/>
+
+    <form method="post" th:action="@{/services/save}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <th:block th:with="items=${services}">
+                            <div th:replace="~{form-group :: fieldAny('serviceType', 'select', 'Service', ${service.serviceType})}">
+                            </div>
+                        </th:block>
+                        <div th:replace="~{form-group :: fieldAny('minWeight', 'number', 'Min Weight (g)', ${service.minWeight})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('basePriceEur', 'number', 'Base Price (EUR)', ${service.basePriceEur})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('priceEurPerWeight', 'number', 'Price per Gram (EUR)', ${service.priceEurPerWeight})}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" th:value="${service.id}"/>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a th:href="@{/services}" class="btn btn-outline-primary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

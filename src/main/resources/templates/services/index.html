@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="heading">
+        <h1 th:text="${title}"></h1>
+        <a th:href="@{/services/create}" class="btn">Create Service</a>
+    </div>
+    <!-- Table Container -->
+    <div class="card">
+        <div class="table-wrapper">
+            <form class="js-form-filter">
+                <table id="emp-table">
+                    <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th align="right">Min Weight (g)</th>
+                        <th align="right">Base Price (EUR)</th>
+                        <th align="right">Price per gram (EUR)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="service: ${services}">
+                        <td>
+                            <a th:href="@{/services/{id}(id=${service.id})}" th:text="${service.serviceType.label}"></a>
+                        </td>
+                        <td th:text="${service.minWeight}" align="right"></td>
+                        <td th:text="${service.basePriceEur}" align="right"></td>
+                        <td th:text="${service.priceEurPerWeight}" align="right"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package bg.nbu.cscb532.logistics.service;
 
+import bg.nbu.cscb532.logistics.data.dto.SaveServiceDto;
 import bg.nbu.cscb532.logistics.data.entity.Service;
 import bg.nbu.cscb532.logistics.data.entity.Shipping;
 import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
@@ -10,6 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ServiceService {
+
+    public Optional<Service> findById(Long id);
+
+    public List<Service> findAll();
+
     public Optional<Service> getForUnitValueAndType(Integer unitValue, ServiceType type);
 
     public BigDecimal getAmountEur(Shipping shipping);
@@ -17,4 +23,6 @@ public interface ServiceService {
     public Map<Service, BigDecimal> calculateServices(Shipping shipping);
 
     public List<Service> getServices(Shipping shipping);
+
+    public Service save(SaveServiceDto saveServiceDto);
 }
