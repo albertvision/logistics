@@ -35,7 +35,6 @@ public class ShippingController {
 
     @GetMapping
     public String getIndex(
-        @RequestParam Map<String, String> filters,
         @ModelAttribute ShippingListDto shippingListDto,
         Model model
     ) {
@@ -74,7 +73,6 @@ public class ShippingController {
                 .toList()
         );
 
-        model.addAttribute("filters", filters);
         model.addAttribute("users", userService.findAll());
 
         return "shippings/index";
