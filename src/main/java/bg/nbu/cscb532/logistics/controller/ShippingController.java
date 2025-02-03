@@ -83,6 +83,7 @@ public class ShippingController {
         model.addAttribute("title", "Create Shipping");
         SaveShippingDto saveShippingDto = SaveShippingDto.builder()
             .senderId(authService.getLoggedInUser().getId())
+            .shippingStatus(ShippingStatusType.NEW)
             .build();
 
         return getSaveController(saveShippingDto, model);
@@ -127,6 +128,10 @@ public class ShippingController {
         model.addAttribute("title", "Shipping %s".formatted(shipping.getId()));
 
         SaveShippingDto shippingDto = SaveShippingDto.fromEntity(shipping);
+        shippingService.getLastStatusType(shipping)
+            .ifPresent(it -> {
+                shippingDto.setShippingStatus(it.getType());
+            });
 
         return getSaveController(shippingDto, model);
     }
@@ -181,6 +186,18 @@ public class ShippingController {
         deliveryTypes.put(ServiceType.DELIVERY_TO_OFFICE.name(), ServiceType.DELIVERY_TO_OFFICE.getLabel());
         deliveryTypes.put(ServiceType.DELIVERY_TO_ADDRESS.name(), ServiceType.DELIVERY_TO_ADDRESS.getLabel());
         model.addAttribute("deliveryTypes", deliveryTypes);
+
+        model.addAttribute(
+            "shippingStatuses",
+            shippingService.getAllowedStatusType(saveShippingDto)
+                .stream().collect(Collectors.toMap(
+                        ShippingStatusType::name,
+                        ShippingStatusType::getLabel,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                    )
+                )
+        );
 
         return "shippings/save";
     }

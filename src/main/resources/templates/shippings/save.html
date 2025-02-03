@@ -75,6 +75,10 @@
             <div class="col-md-6">
                 <div class="card my-3">
                     <div class="card-body">
+                        <th:block th:with="items=${shippingStatuses}">
+                            <div th:replace="~{form-group :: fieldAny('shippingStatus', 'select', 'Status', ${shipping.shippingStatus.name()})}">
+                            </div>
+                        </th:block>
                         <div th:replace="~{form-group :: fieldAny('description', 'text', 'Content', ${shipping.description})}">
                         </div>
                         <div th:replace="~{form-group :: fieldAny('weightGrams', 'number', 'Package Weight (g)', ${shipping.weightGrams})}">

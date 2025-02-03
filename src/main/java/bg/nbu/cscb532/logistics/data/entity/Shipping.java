@@ -1,10 +1,7 @@
 package bg.nbu.cscb532.logistics.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -57,6 +54,7 @@ public class Shipping extends BaseEntity {
 
     @OneToMany(mappedBy = "shipping")
     @OrderBy("createdAt")
+    @Builder.Default
     private Set<ShippingStatus> shippingStatuses = new LinkedHashSet<>();
 
 }

@@ -2,6 +2,7 @@ package bg.nbu.cscb532.logistics.data.dto;
 
 import bg.nbu.cscb532.logistics.data.entity.Shipping;
 import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
+import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -39,6 +40,8 @@ public class SaveShippingDto {
     private Long receiverCityId;
 
     private Long receiverOfficeId;
+
+    private ShippingStatusType shippingStatus;
 
     @NotNull
     private Integer weightGrams;

@@ -15,9 +15,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +42,13 @@ public class ShippingServiceImpl implements ShippingService {
     public Shipping save(SaveShippingDto shippingDto) {
         Shipping shipping = createEntity(shippingDto);
 
-        shippingRepository.save(shipping);
-        shippingStatusRepository.saveAll(shipping.getShippingStatuses());
+        if (shipping.getId() == null) {
+            shippingRepository.save(shipping);
+            shippingStatusRepository.saveAll(shipping.getShippingStatuses());
+        } else {
+            shippingStatusRepository.saveAll(shipping.getShippingStatuses());
+            shippingRepository.save(shipping);
+        }
 
         return shipping;
     }
@@ -74,10 +77,6 @@ public class ShippingServiceImpl implements ShippingService {
 
         ShippingStatus lastStatus = getLastStatusType(shipping)
                 .orElseThrow(() -> new IllegalArgumentException("Last status cannot be detected."));
-
-        if (lastStatus.getType() != ShippingStatusType.NEW) {
-            throw new IllegalArgumentException("Only new shippings can be saved");
-        }
 
         User sender = userService.findById(shippingDto.getSenderId())
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
@@ -110,6 +109,22 @@ public class ShippingServiceImpl implements ShippingService {
             Office receiverOffice = officeService.findById(shippingDto.getReceiverOfficeId())
                     .orElseThrow(() -> new IllegalArgumentException("Receiver office not found"));
             shipping.setReceiverOffice(receiverOffice);
+        }
+
+        ShippingStatusType shippingStatusType = shippingDto.getShippingStatus();
+        if (!getAllowedStatusType(shipping).contains(shippingStatusType) ) {
+            throw new IllegalArgumentException("Shipping status not allowed");
+        }
+
+        if (!shippingStatusType.equals(lastStatus.getType())) {
+            shipping.getShippingStatuses().add(
+                ShippingStatus.builder()
+                    .type(shippingStatusType)
+                    .user(creator)
+                    .shipping(shipping)
+                    .createdAt(LocalDateTime.now())
+                    .build()
+            );
         }
 
         shipping.setWeightInGrams(shippingDto.getWeightGrams());
@@ -160,6 +175,43 @@ public class ShippingServiceImpl implements ShippingService {
         return shipping.getShippingStatuses()
                 .stream()
                 .max(Comparator.comparing(ShippingStatus::getCreatedAt));
+    }
+
+    @Override
+    public List<ShippingStatusType> getAllowedStatusType(Shipping shipping) {
+        Optional<ShippingStatus> lastStatus = getLastStatusType(shipping);
+
+        if (lastStatus.isEmpty()) {
+            return List.of(ShippingStatusType.NEW);
+        }
+
+        if(authService.getLoggedInUser().getAuthority().equals(Authority.USER)) {
+            return List.of(lastStatus.get().getType());
+        }
+
+        List<ShippingStatusType> statusTypesToRemove = new ArrayList<>();
+        List<ShippingStatusType> statusTypes = new java.util.LinkedList<>(Arrays.stream(ShippingStatusType.values()).toList());
+
+        for (ShippingStatusType statusType : statusTypes) {
+            if (statusType.equals(lastStatus.get().getType())) {
+                break;
+            }
+
+            statusTypesToRemove.add(statusType);
+        }
+
+        statusTypes.removeAll(statusTypesToRemove);
+
+        return statusTypes;
+    }
+
+    @Override
+    public List<ShippingStatusType> getAllowedStatusType(SaveShippingDto shippingDto) {
+        Shipping shipping = shippingDto.getId() == null
+            ? Shipping.builder().build()
+            : findById(shippingDto.getId()).orElseThrow();
+
+        return getAllowedStatusType(shipping);
     }
 
     @Override
