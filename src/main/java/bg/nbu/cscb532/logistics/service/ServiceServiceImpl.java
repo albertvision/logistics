@@ -6,6 +6,7 @@ import bg.nbu.cscb532.logistics.data.entity.Service_;
 import bg.nbu.cscb532.logistics.data.entity.Shipping;
 import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
 import bg.nbu.cscb532.logistics.data.repository.ServiceRepository;
+import bg.nbu.cscb532.logistics.exception.RuleViolatedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -77,7 +78,7 @@ public class ServiceServiceImpl implements ServiceService {
     public Service save(SaveServiceDto saveServiceDto) {
         Service service = saveServiceDto.getId() == null
             ? Service.builder().build()
-            : serviceRepository.findById(saveServiceDto.getId()).orElseThrow(() -> new IllegalArgumentException("Service not found"));
+            : serviceRepository.findById(saveServiceDto.getId()).orElseThrow(() -> new RuleViolatedException("Service not found"));
 
         service.setServiceType(saveServiceDto.getServiceType());
         service.setMinWeight(saveServiceDto.getMinWeight());
@@ -87,7 +88,7 @@ public class ServiceServiceImpl implements ServiceService {
         try {
             return serviceRepository.save(service);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Service for that min weight already exists");
+            throw new RuleViolatedException("Service for that min weight already exists");
         }
     }
 

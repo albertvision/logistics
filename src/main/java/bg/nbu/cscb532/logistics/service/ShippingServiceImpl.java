@@ -8,6 +8,7 @@ import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import bg.nbu.cscb532.logistics.data.repository.ShippingRepository;
 import bg.nbu.cscb532.logistics.data.repository.ShippingStatusRepository;
 import bg.nbu.cscb532.logistics.data.spec.ShippingSpec;
+import bg.nbu.cscb532.logistics.exception.RuleViolatedException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -73,48 +74,48 @@ public class ShippingServiceImpl implements ShippingService {
             shipping.setCreatedAt(LocalDateTime.now());
         } else {
             shipping = findById(shippingDto.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Shipping not found"));
+                    .orElseThrow(() -> new RuleViolatedException("Shipping not found"));
         }
 
         ShippingStatus lastStatus = getLastStatusType(shipping)
-                .orElseThrow(() -> new IllegalArgumentException("Last status cannot be detected."));
+                .orElseThrow(() -> new RuleViolatedException("Last status cannot be detected."));
 
         User sender = userService.findById(shippingDto.getSenderId())
-                .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
+                .orElseThrow(() -> new RuleViolatedException("Sender not found"));
 
         if (!getAllowedSenders().contains(sender)) {
-            throw new IllegalArgumentException("Sender not allowed");
+            throw new RuleViolatedException("Sender not allowed");
         }
 
         shipping.setSender(sender);
 
         if (shippingDto.getSenderOfficeId() == null) {
             City senderCity = cityService.findById(shippingDto.getSenderCityId())
-                    .orElseThrow(() -> new IllegalArgumentException("Sender city not found"));
+                    .orElseThrow(() -> new RuleViolatedException("Sender city not found"));
             shipping.setSenderAddress(new Address(shippingDto.getSenderAddressLine(), senderCity));
         } else {
             Office senderOffice = officeService.findById(shippingDto.getSenderOfficeId())
-                    .orElseThrow(() -> new IllegalArgumentException("Sender office not found"));
+                    .orElseThrow(() -> new RuleViolatedException("Sender office not found"));
             shipping.setSenderOffice(senderOffice);
         }
 
         User receiver = userService.findById(shippingDto.getReceiverId())
-                .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
+                .orElseThrow(() -> new RuleViolatedException("Receiver not found"));
         shipping.setReceiver(receiver);
 
         if (shippingDto.getReceiverOfficeId() == null) {
             City receiverCity = cityService.findById(shippingDto.getReceiverCityId())
-                    .orElseThrow(() -> new IllegalArgumentException("Receiver city not found"));
+                    .orElseThrow(() -> new RuleViolatedException("Receiver city not found"));
             shipping.setReceiverAddress(new Address(shippingDto.getReceiverAddressLine(), receiverCity));
         } else {
             Office receiverOffice = officeService.findById(shippingDto.getReceiverOfficeId())
-                    .orElseThrow(() -> new IllegalArgumentException("Receiver office not found"));
+                    .orElseThrow(() -> new RuleViolatedException("Receiver office not found"));
             shipping.setReceiverOffice(receiverOffice);
         }
 
         ShippingStatusType shippingStatusType = shippingDto.getShippingStatus();
         if (!getAllowedStatusType(shipping).contains(shippingStatusType) ) {
-            throw new IllegalArgumentException("Shipping status not allowed");
+            throw new RuleViolatedException("Shipping status not allowed");
         }
 
         if (!shippingStatusType.equals(lastStatus.getType())) {

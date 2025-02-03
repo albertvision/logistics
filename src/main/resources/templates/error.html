@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html th:with="title=${error}" th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="heading">
+        <h1 th:text="${error}"></h1>
+        <p class="lead" th:text="${message}"></p>
+    </div>
+</div>
+</body>
+</html>
