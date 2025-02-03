@@ -136,8 +136,7 @@ public class ShippingController {
             model.addAttribute("shipping", saveShippingDto);
         }
 
-        List<User> users = userService.findAll();
-        Map<Long, String> senders = users
+        Map<Long, String> senders = shippingService.getAllowedSenders()
             .stream()
             .collect(Collectors.toMap(
                     User::getId,
@@ -146,7 +145,7 @@ public class ShippingController {
             );
         model.addAttribute("senders", senders);
 
-        Map<Long, String> receivers = users
+        Map<Long, String> receivers = userService.findAll()
             .stream()
             .collect(Collectors.toMap(
                     User::getId,

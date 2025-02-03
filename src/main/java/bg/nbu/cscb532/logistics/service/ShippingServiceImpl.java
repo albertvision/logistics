@@ -156,4 +156,15 @@ public class ShippingServiceImpl implements ShippingService {
                 .stream()
                 .max(Comparator.comparing(ShippingStatus::getCreatedAt));
     }
+
+    @Override
+    public List<User> getAllowedSenders() {
+        User currentUser = authService.getLoggedInUser();
+
+        if (currentUser.getAuthority().equals(Authority.USER)) {
+            return List.of(currentUser);
+        }
+
+        return userService.findAll();
+    }
 }
