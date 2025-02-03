@@ -3,27 +3,23 @@ package bg.nbu.cscb532.logistics.controller;
 import bg.nbu.cscb532.logistics.data.ActionResult;
 import bg.nbu.cscb532.logistics.data.ResultType;
 import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
+import bg.nbu.cscb532.logistics.data.dto.ShippingListDto;
 import bg.nbu.cscb532.logistics.data.entity.City;
 import bg.nbu.cscb532.logistics.data.entity.Office;
 import bg.nbu.cscb532.logistics.data.entity.Shipping;
 import bg.nbu.cscb532.logistics.data.entity.User;
 import bg.nbu.cscb532.logistics.data.enumeration.ServiceType;
+import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import bg.nbu.cscb532.logistics.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -38,21 +34,47 @@ public class ShippingController {
     private final AuthService authService;
 
     @GetMapping
-    public String getIndex(Model model) {
+    public String getIndex(
+        @RequestParam Map<String, String> filters,
+        @ModelAttribute ShippingListDto shippingListDto,
+        Model model
+    ) {
         model.addAttribute("title", "Shippings");
+        model.addAttribute("shippingListDto", shippingListDto);
 
-        List<Shipping> shippings = shippingService.findAll();
+        List<Shipping> shippings = shippingService.findAll(shippingListDto);
         model.addAttribute("shippings", shippings);
 
         model.addAttribute(
-                "shippingStatuses",
-                shippings.stream()
-                        .collect(Collectors.toMap(
-                                Function.identity(),
-                                shippingService::getLastStatusType
-                        ))
+            "shippingStatuses",
+            shippings.stream()
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        shippingService::getLastStatusType
+                    )
+                )
         );
 
+        model.addAttribute(
+            "shippingStatusTypes",
+            Arrays.stream(ShippingStatusType.values())
+                .collect(Collectors.toMap(
+                        ShippingStatusType::name,
+                        ShippingStatusType::getLabel,
+                        (v1, v2) -> v1,
+                        LinkedHashMap::new
+                    )
+                )
+        );
+
+        model.addAttribute(
+            "shippingReceivers",
+            shippings.stream()
+                .map(Shipping::getReceiver)
+                .toList()
+        );
+
+        model.addAttribute("filters", filters);
         model.addAttribute("users", userService.findAll());
 
         return "shippings/index";
@@ -62,17 +84,17 @@ public class ShippingController {
     public String getCreate(Model model) {
         model.addAttribute("title", "Create Shipping");
         SaveShippingDto saveShippingDto = SaveShippingDto.builder()
-                .senderId(authService.getLoggedInUser().getId())
-                .build();
+            .senderId(authService.getLoggedInUser().getId())
+            .build();
 
         return getSaveController(saveShippingDto, model);
     }
 
     @PostMapping("/save")
     public String saveShipping(
-            @Valid SaveShippingDto saveShippingDto,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+        @Valid SaveShippingDto saveShippingDto,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("shipping", saveShippingDto);
@@ -80,8 +102,8 @@ public class ShippingController {
             redirectAttributes.addFlashAttribute("result", new ActionResult("Form validation failed", ResultType.ERROR));
 
             return saveShippingDto.getId() == null
-                    ? "redirect:/shippings/create"
-                    : "redirect:/shippings/" + saveShippingDto.getId();
+                ? "redirect:/shippings/create"
+                : "redirect:/shippings/" + saveShippingDto.getId();
         }
 
         Shipping shipping = shippingService.save(saveShippingDto);
@@ -92,9 +114,9 @@ public class ShippingController {
 
     @GetMapping("/{id}")
     public String editShipping(
-            @PathVariable Long id,
-            RedirectAttributes redirectAttributes,
-            Model model
+        @PathVariable Long id,
+        RedirectAttributes redirectAttributes,
+        Model model
     ) {
         Optional<Shipping> shippingMaybe = shippingService.findById(id);
         if (shippingMaybe.isEmpty()) {
@@ -118,39 +140,39 @@ public class ShippingController {
 
         List<User> users = userService.findAll();
         Map<Long, String> senders = users
-                .stream()
-                .collect(Collectors.toMap(
-                                User::getId,
-                                it -> "(%d) %s".formatted(it.getId(), it.getName())
-                        )
-                );
+            .stream()
+            .collect(Collectors.toMap(
+                    User::getId,
+                    it -> "(%d) %s".formatted(it.getId(), it.getName())
+                )
+            );
         model.addAttribute("senders", senders);
 
         Map<Long, String> receivers = users
-                .stream()
-                .collect(Collectors.toMap(
-                                User::getId,
-                                it -> "(%d) %s".formatted(it.getId(), it.getName())
-                        )
-                );
+            .stream()
+            .collect(Collectors.toMap(
+                    User::getId,
+                    it -> "(%d) %s".formatted(it.getId(), it.getName())
+                )
+            );
         model.addAttribute("receivers", receivers);
 
         Map<Long, String> cities = cityService.findAll()
-                .stream()
-                .collect(Collectors.toMap(
-                                City::getId,
-                                City::toString
-                        )
-                );
+            .stream()
+            .collect(Collectors.toMap(
+                    City::getId,
+                    City::toString
+                )
+            );
         model.addAttribute("cities", cities);
 
         Map<Long, String> offices = officeService.findAll()
-                .stream()
-                .collect(Collectors.toMap(
-                                Office::getId,
-                                it -> " %s, %s".formatted(it.getAddress().getCity(), it.getName())
-                        )
-                );
+            .stream()
+            .collect(Collectors.toMap(
+                    Office::getId,
+                    it -> " %s, %s".formatted(it.getAddress().getCity(), it.getName())
+                )
+            );
         model.addAttribute("offices", offices);
 
         var collecitonTypes = new LinkedHashMap<String, String>();

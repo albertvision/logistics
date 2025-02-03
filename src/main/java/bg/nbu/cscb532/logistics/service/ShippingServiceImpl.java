@@ -1,6 +1,7 @@
 package bg.nbu.cscb532.logistics.service;
 
 import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
+import bg.nbu.cscb532.logistics.data.dto.ShippingListDto;
 import bg.nbu.cscb532.logistics.data.entity.*;
 import bg.nbu.cscb532.logistics.data.enumeration.Authority;
 import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
@@ -115,8 +116,23 @@ public class ShippingServiceImpl implements ShippingService {
     }
 
     @Override
-    public List<Shipping> findAll() {
-        return shippingRepository.findAll(getBaseShippingSpec());
+    public List<Shipping> findAll(ShippingListDto shippingListDto) {
+        Specification<Shipping> specification = getBaseShippingSpec();
+
+        // Filters
+        if (shippingListDto.getStatus() != null) {
+            specification = specification.and(ShippingSpec.lastStatusIs(shippingListDto.getStatus()));
+        }
+
+        if (shippingListDto.getReceiverId() != null) {
+            Optional<User> receiver = userService.findById(shippingListDto.getReceiverId());
+
+            if (receiver.isPresent()) {
+                specification = specification.and(ShippingSpec.receiverIs(receiver.get()));
+            }
+        }
+
+        return shippingRepository.findAll(specification);
     }
 
     private Specification<Shipping> getBaseShippingSpec() {

@@ -1,6 +1,7 @@
 package bg.nbu.cscb532.logistics.service;
 
 import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
+import bg.nbu.cscb532.logistics.data.dto.ShippingListDto;
 import bg.nbu.cscb532.logistics.data.entity.Shipping;
 import bg.nbu.cscb532.logistics.data.entity.ShippingStatus;
 
@@ -15,7 +16,7 @@ public interface ShippingService {
 
     public Shipping createEntity(SaveShippingDto shippingDto);
 
-    public List<Shipping> findAll();
+    public List<Shipping> findAll(ShippingListDto shippingListDto);
 
     public Optional<ShippingStatus> getLastStatusType(Shipping shipping);
 }

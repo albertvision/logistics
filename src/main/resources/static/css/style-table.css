@@ -38,10 +38,6 @@ table {
     border-spacing: 0px;
 }
 
-.table-filter {
-    border-radius: 5px;
-}
-
 table th {
     position: sticky;
     top: 0;
@@ -68,4 +64,8 @@ table td {
     padding-left: 20px;
 }
 
-
+table .form-control {
+    width: auto;
+    padding: 4px;
+    display: block;
+}
