@@ -2,11 +2,15 @@ package bg.nbu.cscb532.logistics.service;
 
 import bg.nbu.cscb532.logistics.data.dto.SaveShippingDto;
 import bg.nbu.cscb532.logistics.data.entity.*;
+import bg.nbu.cscb532.logistics.data.enumeration.Authority;
 import bg.nbu.cscb532.logistics.data.enumeration.ShippingStatusType;
 import bg.nbu.cscb532.logistics.data.repository.ShippingRepository;
 import bg.nbu.cscb532.logistics.data.repository.ShippingStatusRepository;
+import bg.nbu.cscb532.logistics.data.spec.ShippingSpec;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,7 +31,11 @@ public class ShippingServiceImpl implements ShippingService {
 
     @Override
     public Optional<Shipping> findById(Long id) {
-        return shippingRepository.findById(id);
+        return shippingRepository.findBy(
+                getBaseShippingSpec()
+                        .and(ShippingSpec.idIs(id)),
+                FluentQuery.FetchableFluentQuery::first
+        );
     }
 
     @Override
@@ -59,7 +67,7 @@ public class ShippingServiceImpl implements ShippingService {
             );
             shipping.setCreatedAt(LocalDateTime.now());
         } else {
-            shipping = shippingRepository.findById(shippingDto.getId())
+            shipping = findById(shippingDto.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Shipping not found"));
         }
 
@@ -108,7 +116,22 @@ public class ShippingServiceImpl implements ShippingService {
 
     @Override
     public List<Shipping> findAll() {
-        return shippingRepository.findAll();
+        return shippingRepository.findAll(getBaseShippingSpec());
+    }
+
+    private Specification<Shipping> getBaseShippingSpec() {
+        User currentUser = authService.getLoggedInUser();
+        Specification<Shipping> specification = Specification.where(null);
+
+        if (currentUser.getAuthority().equals(Authority.USER)) {
+            specification = specification.and(
+                    ShippingSpec.senderIs(currentUser)
+                            .or(ShippingSpec.receiverIs(currentUser)
+                            )
+            );
+        }
+
+        return specification;
     }
 
     @Override
