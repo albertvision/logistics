@@ -2,17 +2,6 @@
 <html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="/css/navigation.css">
 <body>
-<header class="header">
-    <h2>Navigation</h2>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="/shippings" class="nav-link">Shippings</a></li>
-            <li><a href="/offices" class="nav-link" >Offices</a></li>
-            <li><a href="/users" class="nav-link" >Users</a></li>
-            <li><a href="/settings" class="nav-link" >Settings</a></li>
-        </ul>
-    </nav>
-</header>
 <div class="container">
     <div class="d-flex gap-3 align-items-center">
         <h1 th:text="${title}"></h1>

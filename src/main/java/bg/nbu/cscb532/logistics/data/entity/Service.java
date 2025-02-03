@@ -27,9 +27,9 @@ public class Service extends BaseEntity {
     @Column(nullable = false)
     private Integer minWeight;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 20, scale = 6)
     private BigDecimal basePriceEur;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 20, scale = 6)
     private BigDecimal priceEurPerWeight;
 }

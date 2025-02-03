@@ -47,6 +47,21 @@ textarea,
     border-color: #FFA500;
 }
 
+.btn-warning {
+    color: #FFA500;
+    background-color: #fff;
+    border-color: #FFA500;
+}
+.btn-warning:hover {
+    color: #fff;
+    background-color: #FFA500;
+    border-color: #FFA500;
+}
+
+.btn-sm {
+    padding: 5px;
+}
+
 a.btn {
     display: inline-block;
     text-decoration: none;
