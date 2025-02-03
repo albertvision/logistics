@@ -11,8 +11,10 @@
         <div class="table-wrapper">
             <form class="js-form-filter">
                 <div class="row">
-                    <input type="date" name="createdAtMin" th:value="${shippingListDto.getCreatedAtMin()}">
-                    <input type="date" name="createdAtMax" th:value="${shippingListDto.getCreatedAtMax()}" >
+                    <div th:replace="~{form-group :: fieldAny('createdAtMin', 'date', 'Min Created Date', ${shippingListDto.getCreatedAtMin()})}">
+                    </div>
+                    <div th:replace="~{form-group :: fieldAny('createdAtMax', 'date', 'Max Created Date', ${shippingListDto.getCreatedAtMin()})}">
+                    </div>
                 </div>
                 <table id="emp-table">
                     <thead>
