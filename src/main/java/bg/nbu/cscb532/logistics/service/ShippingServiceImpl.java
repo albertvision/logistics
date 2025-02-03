@@ -81,6 +81,11 @@ public class ShippingServiceImpl implements ShippingService {
 
         User sender = userService.findById(shippingDto.getSenderId())
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
+
+        if (!getAllowedSenders().contains(sender)) {
+            throw new IllegalArgumentException("Sender not allowed");
+        }
+
         shipping.setSender(sender);
 
         if (shippingDto.getSenderOfficeId() == null) {
