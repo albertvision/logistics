@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="bg" xmlns:th="http://www.thymeleaf.org"
+<html lang="bg"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:fragment="layout(body)">
 <head>
     <meta charset="UTF-8">
@@ -21,9 +23,9 @@
         <nav class="sidebar">
             <ul class="nav-links">
                 <li><a href="/shippings" class="nav-link">Shippings</a></li>
-                <li><a href="/offices" class="nav-link" >Offices</a></li>
-                <li><a href="/services" class="nav-link" >Services</a></li>
-                <li><a href="/settings" class="nav-link" >Settings</a></li>
+                <li><a href="/offices" class="nav-link" sec:authorize="hasRole('ADMIN')">Offices</a></li>
+                <li><a href="/services" class="nav-link" sec:authorize="hasRole('ADMIN')">Services</a></li>
+                <li><a href="/settings" class="nav-link" sec:authorize="hasRole('ADMIN')">Settings</a></li>
                 <li><a href="/logout" class="nav-link" >Logout</a></li>
             </ul>
         </nav>

@@ -6,6 +6,7 @@ import bg.nbu.cscb532.logistics.data.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Company save(SaveCompanyInfoDto saveCompanyInfoDto) {
         Company company = find();
         company.setName(saveCompanyInfoDto.getCompanyName());

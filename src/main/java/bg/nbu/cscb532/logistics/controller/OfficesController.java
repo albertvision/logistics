@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/offices")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class OfficesController {
     private final OfficeService officeService;
     private final CityService citiesService;
