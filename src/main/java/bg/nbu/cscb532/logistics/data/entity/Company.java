@@ -1,25 +1,20 @@
 package bg.nbu.cscb532.logistics.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Company {
-    @Id
-    private Long id;
-
+@SuperBuilder
+public class Company extends BaseEntity{
     private String name;
 
-    private BigDecimal deliveryToLocationFeeEur;
-
-    private BigDecimal deliveryToOfficeFeeEur;
+    private String phoneNumber;
 }

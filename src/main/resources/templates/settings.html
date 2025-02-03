@@ -1,45 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <link rel="stylesheet" href="/css/settings.css">
-    <link rel="stylesheet" href="/css/navigation.css">
-</head>
+<html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
 <body>
-<header class="header">
-    <h2>Navigation</h2>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="/shippings" class="nav-link">Shippings</a></li>
-            <li><a href="/offices" class="nav-link" >Offices</a></li>
-            <li><a href="/users" class="nav-link" sec:authorize="hasRole('ADMIN')" >Users</a></li>
-            <li><a href="/settings" class="nav-link" sec:authorize="hasRole('ADMIN')">Settings</a></li>
-        </ul>
-    </nav>
-</header>
-<div class="settings-container">
-    <h1>Settings</h1>
-
-    <!-- Company Name -->
-    <label for="company-name">Company Name:</label>
-    <input type="text" id="company-name" placeholder="Enter company name">
-
-    <h2>Services</h2>
-
-    <!-- Services List -->
-    <div id="services-list">
-        <!-- Services will be dynamically added here -->
+<div class="container">
+    <div class="heading">
+        <h1 th:text="${title}"></h1>
     </div>
 
-    <!-- Remove Service Button -->
-    <button class="btn remove-btn" onclick="removeService()">Remove Service</button>
+    <p th:if="${result} != null"
+       th:class="'alert alert-' + ${@uiService.getResultTypeColor(result.type)}"
+       th:text="${result.message}"/>
 
-    <!-- Add Service Button -->
-    <button class="btn" onclick="addService()">Add Service</button>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" th:action="@{/settings}">
+                        <div th:replace="~{form-group :: fieldAny('companyName', 'text', 'Company Name', ${company.companyName})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('phoneNumber', 'tel', 'Phone number', ${company.phoneNumber})}">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<script src="/js/settings.js"></script>
 </body>
 </html>
