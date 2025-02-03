@@ -10,6 +10,10 @@
     <div class="card">
         <div class="table-wrapper">
             <form class="js-form-filter">
+                <div class="row">
+                    <input type="date" name="createdAtMin" th:value="${shippingListDto.getCreatedAtMin()}">
+                    <input type="date" name="createdAtMax" th:value="${shippingListDto.getCreatedAtMax()}" >
+                </div>
                 <table id="emp-table">
                     <thead>
                     <tr>
@@ -41,6 +45,7 @@
                         <th data-index="6">Receiver's Address</th>
                         <th data-index="7">Content</th>
                         <th data-index="8">Weight (g)</th>
+                        <th data-index="8">Price</th>
                     </tr>
                     </thead>
 
@@ -58,7 +63,8 @@
                         <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
                         <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
                         <td th:text="${shipping.contentDescription}"></td>
-                        <td th:text="${shipping.weightInGrams}" class="text-end"></td>
+                        <td th:text="${shipping.weightInGrams}" align="right"></td>
+                        <td th:text="${shipping.totalPriceEur+' EUR'}" align="right"></td>
                     </tr>
                     </tbody>
                 </table>

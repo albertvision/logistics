@@ -7,6 +7,8 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
+
 public class ShippingSpec {
     public static Specification<Shipping> idIs(Long id) {
         return (root, query, cb) -> cb.equal(root.get(Shipping_.ID), id);
@@ -18,6 +20,14 @@ public class ShippingSpec {
 
     public static Specification<Shipping> receiverIs(User user) {
         return (root, query, cb) -> cb.equal(root.get(Shipping_.RECEIVER), user);
+    }
+
+    public static Specification<Shipping> createdAtMin(LocalDate minDate) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(Shipping_.CREATED_AT), minDate);
+    }
+
+    public static Specification<Shipping> createdAtMax(LocalDate maxDate) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(Shipping_.CREATED_AT), maxDate);
     }
 
     public static Specification<Shipping> lastStatusIs(ShippingStatusType shippingStatusType) {

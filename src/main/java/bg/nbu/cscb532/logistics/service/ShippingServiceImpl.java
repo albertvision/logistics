@@ -10,6 +10,7 @@ import bg.nbu.cscb532.logistics.data.repository.ShippingStatusRepository;
 import bg.nbu.cscb532.logistics.data.spec.ShippingSpec;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
@@ -140,6 +141,14 @@ public class ShippingServiceImpl implements ShippingService {
         Specification<Shipping> specification = getBaseShippingSpec();
 
         // Filters
+        if (shippingListDto.getCreatedAtMin() != null) {
+            specification = specification.and(ShippingSpec.createdAtMin(shippingListDto.getCreatedAtMin()));
+        }
+
+        if (shippingListDto.getCreatedAtMax() != null) {
+            specification = specification.and(ShippingSpec.createdAtMax(shippingListDto.getCreatedAtMax()));
+        }
+
         if (shippingListDto.getStatus() != null) {
             specification = specification.and(ShippingSpec.lastStatusIs(shippingListDto.getStatus()));
         }
@@ -152,7 +161,7 @@ public class ShippingServiceImpl implements ShippingService {
             }
         }
 
-        return shippingRepository.findAll(specification);
+        return shippingRepository.findAll(specification, Sort.by(Sort.Order.desc(Shipping_.CREATED_AT)));
     }
 
     private Specification<Shipping> getBaseShippingSpec() {
