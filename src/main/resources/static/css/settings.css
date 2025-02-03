@@ -21,15 +21,6 @@ h1, h2 {
     margin-bottom: 10px;
 }
 
-/* Inputs & Select */
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 /* Service Box */
 .service-box {
     padding: 15px;
@@ -39,45 +30,3 @@ input, select {
     position: relative;
 }
 
-/* Remove Single Service Button */
-.remove-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.remove-btn:hover {
-    background-color: #cc0000;
-}
-
-/* Buttons (Add & Remove All Services) */
-.btn {
-    padding: 10px;
-    background-color: #003153; /* Blue */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-}
-
-.btn:hover {
-    background-color: #FFA500; /* Orange */
-}
-
-/* Remove All Services Button */
-.remove-btn {
-    background-color: #ff4d4d; /* Red */
-}
-
-.remove-btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
-}

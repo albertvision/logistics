@@ -1,0 +1,124 @@
+
+/* Inputs & Select */
+input,
+select,
+textarea,
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* Remove Single Service Button */
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Buttons (Add & Remove All Services) */
+.btn {
+    padding: 10px;
+    background-color: #003153; /* Blue */
+    color: white;
+    border: 2px solid #003153;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #FFA500; /* Orange */
+    border-color: #FFA500;
+}
+
+a.btn {
+    display: inline-block;
+    text-decoration: none;
+}
+
+
+.btn-outline-primary {
+    color: #000;
+    background-color: #fff;
+    border-color: #003153;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active,
+input:checked + .btn-outline-primary {
+    color: #fff;
+    background-color: #003153;
+    border-color: #003153;
+}
+
+.btn-outline-secondary {
+    color: #000;
+    background-color: #fff;
+    border-color: #808080;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:active,
+input:checked + .btn-outline-secondary {
+    color: #fff;
+    background-color: #808080;
+    border-color: #808080;
+}
+
+.btn-primary {
+    background-color: #003153;
+}
+
+/* Remove All Services Button */
+.remove-btn {
+    background-color: #ff4d4d; /* Red */
+}
+
+.remove-btn:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+
+.btn-group input[type=radio] {
+    display: none;
+}
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    margin: 6px 0;
+}
+.btn-group .btn {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.card,
+.settings-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.is-invalid {
+    border: 1px solid #cd1313;
+}
+.invalid-feedback {
+    color: #cd1313;
+}

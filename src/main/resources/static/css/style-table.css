@@ -68,27 +68,4 @@ table td {
     padding-left: 20px;
 }
 
-/* Updated button styles */
-.btn {
-    width: auto; /* Button width adjusts to content */
-    padding: 10px 20px; /* Adjusted padding for a smaller button */
-    background-color: white; /* Default button background */
-    color: #003153; /* Text color */
-    border: 2px solid #003153; /* Border added to match text color */
-    border-radius: 10px; /* Slightly rounder corners */
-    font-size: 16px; /* Reduced font size */
-    cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition for hover effect */
-}
 
-.btn:hover {
-    background-color: #FFA500; /* Button changes to orange on hover */
-    color: white; /* Text remains white */
-    border-color: #FFA500; /* Border changes to match hover background */
-}
-
-
-a.btn {
-    display: inline-block;
-    text-decoration: none;
-}
