@@ -18,7 +18,6 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th>City</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,11 +27,6 @@
                     </td>
                     <td th:text="${office.address.addressLine}"></td>
                     <td th:text="${#strings.concat(office.address.city.postalCode, ' ', office.address.city.name)}"></td>
-                    <td class="text-right">
-                        <a th:href="'/offices/' + ${office.id}" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Edit">
-                            <i class="bi bi-pen"></i>
-                        </a>
-                    </td>
                 </tr>
                 </tbody>
             </table>

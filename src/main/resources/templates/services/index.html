@@ -14,9 +14,9 @@
                     <thead>
                     <tr>
                         <th>Service</th>
-                        <th align="right">Min Weight (g)</th>
-                        <th align="right">Base Price (EUR)</th>
-                        <th align="right">Price per gram (EUR)</th>
+                        <th align="right">Min Weight</th>
+                        <th align="right">Base Price</th>
+                        <th align="right">Price per gram</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,9 +24,9 @@
                         <td>
                             <a th:href="@{/services/{id}(id=${service.id})}" th:text="${service.serviceType.label}"></a>
                         </td>
-                        <td th:text="${service.minWeight}" align="right"></td>
-                        <td th:text="${service.basePriceEur}" align="right"></td>
-                        <td th:text="${service.priceEurPerWeight}" align="right"></td>
+                        <td th:text="${service.minWeight + ' g'}" style="text-align: right;"></td>
+                        <td th:text="${service.basePriceEur + ' EUR'}" style="text-align: right;"></td>
+                        <td th:text="${service.priceEurPerWeight + ' EUR'}" style="text-align: right;"></td>
                     </tr>
                     </tbody>
                 </table>
