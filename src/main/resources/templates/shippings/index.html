@@ -2,53 +2,56 @@
 <html th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-  <div class="heading">
-    <h1 th:text="${title}"></h1>
-    <a href="/shippings/create" class="btn">Create Shipment</a>
-  </div>
-  <!-- Table Container -->
-  <div class="outer-wrapper">
-    <div class="table-wrapper">
-      <table id="emp-table">
-        <thead>
-        <tr>
-          <th data-index="1" onclick="sortTable(0)">Order ID</th>
-          <th data-index="2" onclick="sortTable(1)">Receiver</th>
-          <th data-index="3">
-            Delivery Status
-            <label>
-              <select class="table-filter" onchange="filterRows(2)">
-                <option value="all">All</option>
-                <option value="Delivered">Delivered</option>
-                <option value="Not Delivered">Not Delivered</option>
-              </select>
-            </label>
-          </th>
-          <th data-index="4">Receiver City</th>
-          <th data-index="5">Delivery</th>
-          <th data-index="6">Receiver's Address</th>
-          <th data-index="7">Content</th>
-          <th data-index="8">Weight (g)</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="shipping : ${shippings}">
-          <td th:text="${shipping.id}"></td>
-          <td>
-            <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}" class="badge text-bg-secondary"></span>
-          </td>
-          <td th:text="${shipping.receiver.name}"></td>
-          <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
-          <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
-          <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
-          <td th:text="${shipping.contentDescription}"></td>
-          <td th:text="${shipping.weightInGrams}" class="text-end"></td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="heading">
+        <h1 th:text="${title}"></h1>
+        <a href="/shippings/create" class="btn">Create Shipment</a>
     </div>
-  </div>
+    <!-- Table Container -->
+    <div class="outer-wrapper">
+        <div class="table-wrapper">
+            <table id="emp-table">
+                <thead>
+                <tr>
+                    <th data-index="1" onclick="sortTable(0)">Order ID</th>
+                    <th data-index="2" onclick="sortTable(1)">Receiver</th>
+                    <th data-index="3">
+                        Delivery Status
+                        <label>
+                            <select class="table-filter" onchange="filterRows(2)">
+                                <option value="all">All</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Not Delivered">Not Delivered</option>
+                            </select>
+                        </label>
+                    </th>
+                    <th data-index="4">Receiver City</th>
+                    <th data-index="5">Delivery</th>
+                    <th data-index="6">Receiver's Address</th>
+                    <th data-index="7">Content</th>
+                    <th data-index="8">Weight (g)</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="shipping : ${shippings}">
+                    <td>
+                        <a th:href="@{/shippings/{id}(id=${shipping.id})}" th:text="${shipping.id}"></a>
+                    </td>
+                    <td>
+                        <span th:text="${shippingStatuses.get(shipping).get().type.getLabel()}"
+                              class="badge text-bg-secondary"></span>
+                    </td>
+                    <td th:text="${shipping.receiver.name}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice.address.city : shipping.receiverAddress.city}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? 'To Office' : 'To Address'}"></td>
+                    <td th:text="${shipping.receiverOffice != null ? shipping.receiverOffice : shipping.receiverAddress}"></td>
+                    <td th:text="${shipping.contentDescription}"></td>
+                    <td th:text="${shipping.weightInGrams}" class="text-end"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 </body>

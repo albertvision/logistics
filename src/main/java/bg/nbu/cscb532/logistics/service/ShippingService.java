@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShippingService {
+
+    public Optional<Shipping> findById(Long id);
+
     public Shipping save(SaveShippingDto shippingDto);
 
     public Shipping createEntity(SaveShippingDto shippingDto);

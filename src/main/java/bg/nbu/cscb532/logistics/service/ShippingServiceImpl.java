@@ -26,6 +26,11 @@ public class ShippingServiceImpl implements ShippingService {
     private final ServiceService serviceService;
 
     @Override
+    public Optional<Shipping> findById(Long id) {
+        return shippingRepository.findById(id);
+    }
+
+    @Override
     @Transactional
     public Shipping save(SaveShippingDto shippingDto) {
         Shipping shipping = createEntity(shippingDto);

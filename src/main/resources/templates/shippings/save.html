@@ -13,55 +13,6 @@
             <div class="col-md-6">
                 <div class="card my-3">
                     <div class="card-body">
-                        <th:block th:with="items=${shippingStatuses}, disabled=true">
-                            <div th:replace="~{form-group :: fieldAny('lastShippingStatus', 'select', 'Status', '')}">
-                            </div>
-                        </th:block>
-                        <div th:replace="~{form-group :: fieldAny('description', 'text', 'Content', ${shipping.description})}">
-                        </div>
-                        <div th:replace="~{form-group :: fieldAny('weightGrams', 'number', 'Package Weight (g)', ${shipping.weightGrams})}">
-                        </div>
-                    </div>
-                </div>
-                <div class="card my-3">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th class="text-end">Cost</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Transportation</td>
-                                <td class="text-end">0,00 EUR</td>
-                            </tr>
-                            <tr>
-                                <td>Collection from office</td>
-                                <td class="text-end">0,00 EUR</td>
-                            </tr>
-                            <tr>
-                                <td>Delivery to Address</td>
-                                <td class="text-end">0,00 EUR</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Total:</th>
-                                <th class="text-end">0,00 EUR</th>
-                            </tr>
-                            </tfoot>
-                            <tr></tr>
-                        </table>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="/shippings" class="btn btn-outline-primary">Cancel</a>
-            </div>
-            <div class="col-md-6">
-                <div class="card my-3">
-                    <div class="card-body">
                         <div th:with="items=${senders}">
                             <div th:replace="~{form-group :: fieldAny('senderId', 'select', 'Sender', ${shipping.senderId})}">
                             </div>
@@ -120,6 +71,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div th:replace="~{form-group :: fieldAny('description', 'text', 'Content', ${shipping.description})}">
+                        </div>
+                        <div th:replace="~{form-group :: fieldAny('weightGrams', 'number', 'Package Weight (g)', ${shipping.weightGrams})}">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/shippings" class="btn btn-outline-primary">Cancel</a>
             </div>
         </div>
         <input type="hidden" name="id" th:value="${shipping.id}"/>

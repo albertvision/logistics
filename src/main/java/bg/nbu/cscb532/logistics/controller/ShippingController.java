@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,6 @@ public class ShippingController {
     private final CityService cityService;
     private final OfficeService officeService;
     private final AuthService authService;
-    private final ServiceService serviceService;
 
     @GetMapping
     public String getIndex(Model model) {
@@ -60,14 +61,59 @@ public class ShippingController {
     @GetMapping("/create")
     public String getCreate(Model model) {
         model.addAttribute("title", "Create Shipping");
+        SaveShippingDto saveShippingDto = SaveShippingDto.builder()
+                .senderId(authService.getLoggedInUser().getId())
+                .build();
 
+        return getSaveController(saveShippingDto, model);
+    }
+
+    @PostMapping("/save")
+    public String saveShipping(
+            @Valid SaveShippingDto saveShippingDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("shipping", saveShippingDto);
+            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+            redirectAttributes.addFlashAttribute("result", new ActionResult("Form validation failed", ResultType.ERROR));
+
+            return saveShippingDto.getId() == null
+                    ? "redirect:/shippings/create"
+                    : "redirect:/shippings/" + saveShippingDto.getId();
+        }
+
+        Shipping shipping = shippingService.save(saveShippingDto);
+        redirectAttributes.addFlashAttribute("result", new ActionResult("Shipping saved", ResultType.SUCCESS));
+
+        return "redirect:/shippings/" + shipping.getId();
+    }
+
+    @GetMapping("/{id}")
+    public String editShipping(
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        Optional<Shipping> shippingMaybe = shippingService.findById(id);
+        if (shippingMaybe.isEmpty()) {
+            redirectAttributes.addFlashAttribute("result", new ActionResult("Shipping not found", ResultType.ERROR));
+
+            return "redirect:/shippings";
+        }
+
+        Shipping shipping = shippingMaybe.get();
+        model.addAttribute("title", "Shipping %s".formatted(shipping.getId()));
+
+        SaveShippingDto shippingDto = SaveShippingDto.fromEntity(shipping);
+
+        return getSaveController(shippingDto, model);
+    }
+
+    private String getSaveController(SaveShippingDto saveShippingDto, Model model) {
         if (!model.containsAttribute("shipping")) {
-            model.addAttribute(
-                    "shipping",
-                    SaveShippingDto.builder()
-                            .senderId(authService.getLoggedInUser().getId())
-                            .build()
-            );
+            model.addAttribute("shipping", saveShippingDto);
         }
 
         List<User> users = userService.findAll();
@@ -118,26 +164,5 @@ public class ShippingController {
         model.addAttribute("deliveryTypes", deliveryTypes);
 
         return "shippings/save";
-    }
-
-    @PostMapping("/save")
-    public String saveShipping(
-            @Valid SaveShippingDto saveShippingDto,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
-    ) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("shipping", saveShippingDto);
-            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            redirectAttributes.addFlashAttribute("result", new ActionResult("Form validation failed", ResultType.ERROR));
-
-            return saveShippingDto.getId() == null
-                    ? "redirect:/shippings/create"
-                    : "redirect:/shippings/" + saveShippingDto.getId();
-        }
-
-        Shipping shipping = shippingService.save(saveShippingDto);
-
-        return "redirect:/shippings/" + shipping.getId();
     }
 }
