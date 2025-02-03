@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" lang="bg" th:replace="~{base :: layout(~{::body})}" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -28,35 +28,29 @@
     <div class="container">
 
         <h1>
-            <a href="#" class="logo">TransCo</a>
+            <a href="#" class="logo" th:text="${company.name}"></a>
         </h1>
 
         <nav class="navbar" data-navbar>
             <ul class="navbar-list">
                 <li class="navbar-item">
-                    <a href="index.html#home" class="navbar-link">Home</a>
+                    <a href="#home" class="navbar-link">Home</a>
                 </li>
                 <li class="navbar-item">
-                    <a href="index.html#about" class="navbar-link">About</a>
+                    <a href="#about" class="navbar-link">About</a>
                 </li>
                 <li class="navbar-item">
-                    <a href="index.html#service" class="navbar-link">Services</a>
+                    <a href="#service" class="navbar-link">Services</a>
                 </li>
             </ul>
         </nav>
-        <li class="navbar-item">
-            <a href="login.html" class="navbar-link">
-                <span>Log In</span>
-                <ion-icon name="chevron-forward"></ion-icon>
-            </a>
-        </li>
 
         <div class="header-contact">
 
             <div>
                 <p class="contact-label">Free Call In Europe</p>
 
-                <a href="tel:+3592345678910" class="contact-number">+359 234 567 8910</a>
+                <a th:href="'tel:'+${company.phoneNumber}" class="contact-number" th:text="${company.phoneNumber}"></a>
             </div>
 
             <div class="contact-icon">
@@ -98,7 +92,7 @@
                         Safe transportation for all kind of packages.
                     </p>
 
-                    <a class="btn btn-outline" th:href="/shipping/table-shipping">Creat Shipment</a>
+                    <a class="btn btn-outline" th:href="@{/shippings/create}">Create Shipment</a>
 
                     <img src="/assets/images/hero-shape.png" width="116" height="116" loading="lazy"
                          class="hero-shape shape-1" alt="">
